@@ -1,0 +1,25 @@
+From dcbca868cdfc0e3052829cd487a7c8193a72b961 Mon Sep 17 00:00:00 2001
+From: Shenyufan <751890223@qq.com>
+Date: Sat, 10 Aug 2024 20:33:01 +0800
+Subject: [PATCH] fix-path
+
+---
+ CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index ee51498..c1ffbf7 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -20,7 +20,7 @@ option(FOR_INSTALL "Build the binary to look for its data in system directories.
+ 
+ if(FOR_INSTALL)
+     # Set binary and data install locations if we want to use the installer
+-    set(FT_BIN_PATH ${CMAKE_INSTALL_PREFIX}/games CACHE PATH "Absolute path to the game binary directory")
++    set(FT_BIN_PATH ${CMAKE_INSTALL_PREFIX}/bin CACHE PATH "Absolute path to the game binary directory")
+     set(FT_DATA_PATH ${CMAKE_INSTALL_PREFIX}/share/games/${PROJECT_NAME} CACHE PATH "Absolute path to the game data directory")
+     set(FT_SHARE_PATH ${CMAKE_INSTALL_PREFIX}/share CACHE PATH "Absolute path to the shared data directory (desktop file, icons, etc.)")
+ 
+-- 
+2.43.4
+
