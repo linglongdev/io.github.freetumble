@@ -1,0 +1,82 @@
+version: "1"
+
+package:
+  id: io.gitlab.freetumble
+  name: freetumble
+  version: 1.1.0.1
+  kind: app
+  description: |
+    Colourful puzzle game using SFML. Fork of the original FreeTumble V1.0 released in 2009.
+
+base: org.deepin.foundation/23.0.0
+runtime: org.deepin.Runtime/23.0.1
+
+command:
+  - /opt/apps/io.gitlab.freetumble/files/bin/freetumble
+
+sources:
+  - kind: git
+    url: https://gitlab.com/LibreGames/freetumble.git
+    version: master
+    commit: b926a887fea19bf46b1d4c81b2ab68993f3317e8
+
+  - kind: file
+    url: https://community-packages.deepin.com/beige/pool/main/o/openal-soft/libopenal1_1.19.1-2_amd64.deb
+    digest: 6519188f969234cbdc9e3cb8346d86339b1f766db083e2519cfdc68b917e00ae
+
+  - kind: file
+    url: https://community-packages.deepin.com/beige/pool/main/o/openal-soft/libopenal-dev_1.19.1-2_amd64.deb
+    digest: 901d42e8dbfaf00638d283b9d55f54e6fce34e1e6272e97cb5ff829e55a30a4b
+
+  - kind: file
+    url: https://community-packages.deepin.com/beige/pool/main/libs/libsfml/libsfml-audio2.5_2.5.1+dfsg-2_amd64.deb
+    digest: e5e8ef85221055932f1aa26ba100a0d0174687adfd267e975def59b2147ba386
+
+  - kind: file
+    url: https://community-packages.deepin.com/beige/pool/main/libs/libsfml/libsfml-dev_2.5.1+dfsg-2_amd64.deb
+    digest: 878540400144bef4ba0a13d91f9cfed734c2ebaaf03be740a666bf5615550a39
+
+  - kind: file
+    url: https://community-packages.deepin.com/beige/pool/main/libs/libsfml/libsfml-graphics2.5_2.5.1+dfsg-2_amd64.deb
+    digest: f862439296b8bb90742e1b5be8a28b451b660c89ffbd01c1b1a260d726281b72
+
+  - kind: file
+    url: https://community-packages.deepin.com/beige/pool/main/libs/libsfml/libsfml-network2.5_2.5.1+dfsg-2_amd64.deb
+    digest: 3e67c5a554775a8245047648769328aff875a85b9239a52050425142a3aa70a7
+
+  - kind: file
+    url: https://community-packages.deepin.com/beige/pool/main/libs/libsfml/libsfml-system2.5_2.5.1+dfsg-2_amd64.deb
+    digest: 802fbabc8cc8eb9d0e0417fbc0fa2a048e1fae3b544c6c6bd5665cad8bec3e5d
+
+  - kind: file
+    url: https://community-packages.deepin.com/beige/pool/main/libs/libsfml/libsfml-window2.5_2.5.1+dfsg-2_amd64.deb
+    digest: b0950234f67cd18fd64f8c9e18a64c168426d44a4f09d0c78c379d44e3e3d4da
+
+  - kind: file
+    url: https://community-packages.deepin.com/beige/pool/main/s/sndio/libsndio7.0_1.5.0-3_amd64.deb
+    digest: aed22e5c4d4734dd70ea33993c33816409d15c1e6355d376abbd7ffccde29adc
+
+  - kind: file
+    url: https://community-packages.deepin.com/beige/pool/main/s/sndio/libsndio-dev_1.5.0-3_amd64.deb
+    digest: 146e5ad77cfdb5b490fe1b9954da0b8e128b614f0ab79d3be377680840bbf9e5
+
+  - kind: file
+    url: https://community-packages.deepin.com/beige/pool/main/libv/libvorbis/libvorbisfile3_1.3.7-1_amd64.deb
+    digest: 50a8cfed14d73f5e15fe13de7faae7d05b5e3a5afa79bac1ed373cf8487213a1
+
+  - kind: file
+    url: https://community-packages.deepin.com/beige/pool/main/libv/libvorbis/libvorbis-dev_1.3.7-1_amd64.deb
+    digest: bdcc73580c9bb62fd6994c12eaad66d6e4884120a740268059044924e4ecedf3
+
+build: |
+  echo "" > $PREFIX/packages.list
+  bash ./install_dep linglong/sources "$PREFIX"
+  
+  
+  cd /project/linglong/sources/freetumble.git
+  git apply /project/patches/0001-fix-path.patch
+  cmake -Bbuild \
+        -DCMAKE_INSTALL_PREFIX=${PREFIX} \
+        -DFOR_INSTALL=ON
+  cmake --build build
+  cmake --build build --target install
